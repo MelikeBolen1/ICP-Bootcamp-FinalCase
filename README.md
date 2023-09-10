@@ -1,6 +1,5 @@
 # ICP-Bootcamp-FinalCase
 Risein icp bootcamp final case.
-# Web3 Auction DApp Project with Rust and Internet Computer (ICP)
 
 ## Project Overview
 
