@@ -1,6 +1,6 @@
 use candid::{CandidType, Deserialize, Encode};
 use ic_cdk::caller;
-use ic_cdk::token::Cycles; // Ekledim
+use ic_cdk::token::Cycles; // Add Token
 use ic_stable_structures::memory_manager::{MemoryId, MemoryManager, VirtualMemory};
 use ic_stable_structures::{BoundedStorable, DefaultMemoryImpl, StableBTreeMap, Storable};
 use std::{borrow::Cow, cell::RefCell};
