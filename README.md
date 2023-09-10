@@ -19,6 +19,20 @@ Key Features:
 
 - Security Checks: Basic security checks are implemented to ensure that only the listing owner can update or stop it.
 
+  ## Changes and Additions
+
+You can find the changes and additions made to this project below:
+
+Token Integration: Token functionality has been added to the project. Users can now make bids using ICPT (Internet Computer Principal Token).
+
+- The `CreateBid` structure has been created and used to store ICPT amounts.
+- ICPT token functionalities have been integrated for bid creation and bid management.
+- Necessary data structures for storing and managing bids have been added.
+
+Unique Bid Identities: A custom function (`generate_unique_bid_id`) has been added to create unique identities for bids. These identities are used to ensure the uniqueness of bids.
+
+README Updates: The README file has been updated to provide information about the project's new functionality.
+
 ## Getting Started
 
 To get started with this project, follow these steps:
@@ -36,6 +50,7 @@ Make sure to include comprehensive test cases to validate the correctness of you
 ## Conclusion
 
 Congratulations on completing this Web3 Auction DApp project developed in Rust and running on the Internet Computer (ICP). It should have been an excellent learning experience for Rust and ICP development. If you have any questions or feedback, please don't hesitate to reach out.
+
 
 
 
@@ -84,6 +99,8 @@ npm start
  ```
 
 Which will start a server at http://localhost:8080, proxying API requests to the replica at port 4943.
+
+
 
 # Note on frontend environment variables
 
