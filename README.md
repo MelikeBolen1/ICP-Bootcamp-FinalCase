@@ -1,7 +1,6 @@
 # ICP-Bootcamp-FinalCase
-Risein icp bootcamp final case.
 
-## Project Overview
+
 
 This project is developed using Rust programming language and runs on the Internet Computer (ICP) to create a Web3 Auction Decentralized Application (DApp). With this DApp, users can perform the following actions:
 
