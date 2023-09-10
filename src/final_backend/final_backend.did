@@ -1,0 +1,143 @@
+type AuctionChoice =
+    variant {
+        CreateAuctionItem: () -> ();
+        PlaceBid: (u64, u32) -> ();
+        EndAuction: (u64) -> ();
+        WithdrawBid: (u64) -> ();
+        IncreaseBid: (u64, u32) -> ();
+    };
+
+type Choice =
+    variant {
+        Approve: () -> ();
+        Reject: () -> ();
+        Pass: () -> ();
+    };
+
+type VoteError =
+    variant {
+        AlreadyVoted: () -> ();
+        ProposalIsNotActive: () -> ();
+        NoSuchProposal: () -> ();
+        AccessRejected: () -> ();
+        UpdateError: () -> ();
+    };
+
+type Proposal =
+    record {
+        description: text;
+        approve: nat32;
+        reject: nat32;
+        pass: nat32;
+        is_active: bool;
+        voted: vec principal;
+        owner: principal;
+    };
+
+type CreateProposal =
+    record {
+        description: text;
+        is_active: bool;
+    };
+
+type Result =
+    variant {
+        Ok: text;
+        Err: text;
+    };
+
+type AuctionItem =
+    record {
+        title: text;
+        description: text;
+        owner: principal;
+        current_highest_bidder: opt principal;
+        current_highest_bid: nat32;
+        is_active: bool;
+    };
+
+type CreateAuctionItem =
+    record {
+        title: text;
+        description: text;
+        start_price: nat32;
+        is_active: bool;
+    };
+
+type AuctionError =
+    variant {
+        UpdateError: () -> ();
+        NoSuchAuction: () -> ();
+        AuctionIsNotActive: () -> ();
+        Expired: () -> ();
+        AccessRejected: () -> ();
+        InvalidChoice: () -> ();
+    };
+
+type BidError =
+    variant {
+        BidAmountLessThanCurrent: () -> ();
+        UpdateError: () -> ();
+        NoSuchAuction: () -> ();
+        AuctionIsNotActive: () -> ();
+        Expired: () -> ();
+        ReachMaxBid: () -> ();
+        InvalidChoice: () -> ();
+        OwnerIsNotValid: () -> ();
+    };
+
+type Bid =
+    record {
+        description: text;
+        auction: u64;
+        owner: principal;
+        currency: text;
+        amount: nat32;
+        is_active: bool;
+    };
+
+type Item =
+    record {
+        title: text;
+        description: text;
+        owner: principal;
+        new_owner: principal;
+        currency: text;
+        amount: nat32;
+        is_active: bool;
+        start_time: text;
+        end_time: text;
+        bid: vec Bid;
+    };
+
+type CreateBid =
+    record {
+        description: text;
+        amount: nat32;
+        currency: text;
+        is_active: bool;
+        owner: text;
+    };
+
+type CreateItem =
+    record {
+        title: text;
+        description: text;
+        is_active: bool;
+        start_time: text;
+        end_time: text;
+        currency: text;
+        amount: nat32;
+    };
+
+service : {
+    "get_proposal": (nat64) -> (opt Proposal) query;
+    "get_auction_item": (nat64) -> (opt AuctionItem) query;
+    "get_item": (nat64) -> (opt Item) query;
+    "get_auction_item_count": () -> (nat64) query;
+    "find_most_bidded_item": () -> (opt AuctionItem) query;
+    "place_bid": (AuctionChoice) -> (Result) update;
+    "withdraw_bid": (AuctionChoice) -> (Result) update;
+    "increase_bid": (AuctionChoice) -> (Result) update;
+    "end_auction": (AuctionChoice) -> (Result) update;
+};
