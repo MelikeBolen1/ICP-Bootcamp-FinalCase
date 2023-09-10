@@ -1,9 +1,45 @@
 # ICP-Bootcamp-FinalCase
 Risein icp bootcamp final case.
+# Web3 Auction DApp Project with Rust and Internet Computer (ICP)
 
-Welcome to your new final project and to the internet computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
+## Project Overview
 
-To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
+This project is developed using Rust programming language and runs on the Internet Computer (ICP) to create a Web3 Auction Decentralized Application (DApp). With this DApp, users can perform the following actions:
+
+- List items for auction
+- Place bids on items
+- Update the listing of an item
+- End an item listing
+
+Key Features:
+
+- Listing and Bidding: Users can list items and place bids on them. Bids are tracked in a StableBTreeMap, providing transparent records of who bid how much.
+
+- Editing and Stopping Listings: Item owners can edit the listing or stop it at any time. When a listing is stopped, the highest bidder becomes the owner.
+
+- Item Management: The project allows the management of a list of items. You can query specific items, the list of all items, the total number of items listed, the item sold for the highest price, and the item with the most bids.
+
+- Security Checks: Basic security checks are implemented to ensure that only the listing owner can update or stop it.
+
+## Getting Started
+
+To get started with this project, follow these steps:
+
+1. Clone this repository to your local development environment.
+
+2. Configure your development environment to work with ICP and Rust according to the provided documentation.
+
+3. Customize the project as needed and start adding Rust code to implement your specific functionalities.
+
+## Testing Requirements
+
+Make sure to include comprehensive test cases to validate the correctness of your Rust code. Proper testing is essential to ensure the reliability of your smart contract.
+
+## Conclusion
+
+Congratulations on completing this Web3 Auction DApp project developed in Rust and running on the Internet Computer (ICP). It should have been an excellent learning experience for Rust and ICP development. If you have any questions or feedback, please don't hesitate to reach out.
+
+
 
 To learn more before you start working with final, see the following documentation available online:
 
