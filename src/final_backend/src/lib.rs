@@ -1,5 +1,6 @@
 use candid::{CandidType, Deserialize, Encode};
 use ic_cdk::caller;
+use ic_cdk::token::Cycles; // Ekledim
 use ic_stable_structures::memory_manager::{MemoryId, MemoryManager, VirtualMemory};
 use ic_stable_structures::{BoundedStorable, DefaultMemoryImpl, StableBTreeMap, Storable};
 use std::{borrow::Cow, cell::RefCell};
@@ -150,6 +151,8 @@ struct CreateBid {
     currency: String,
     is_active: bool,    
     owner: String,
+    bid_amount: ic_cdk::token::Cycles, // New field that stores ICPT amount
+
 }
 
 #[derive(CandidType, Deserialize)]
@@ -350,6 +353,8 @@ fn increase_bid(choice: AuctionChoice) -> Result<(), BidError> {
     }
 }
 
+
+
 // It ends the auction and determines the bidder with the highest bid.
 #[ic_cdk::update]
 fn end_auction(choice: AuctionChoice) -> Result<(), AuctionError> {
@@ -389,4 +394,56 @@ fn end_auction(choice: AuctionChoice) -> Result<(), AuctionError> {
         _ => Err(AuctionError::InvalidChoice),
     }
 }
+
+
+
+#[ic_cdk::update]
+fn create_bid(create_bid: CreateBid) -> Result<(), BidError> {
+    let bid_amount = create_bid.bid_amount;
+
+    // Check if user has enough ICPT and make payment
+    if ic_cdk::token::balance(&caller()) < bid_amount.get_cycles() {
+        return Err(BidError::NotEnoughICPT);
+    }
+
+    // Deduct the bid amount from the user who submitted the ICPT
+    let transfer_result = ic_cdk::token::transfer_to_self(bid_amount);
+
+    match transfer_result {
+        Ok(_) => {
+            // Create the offer
+            // For example, storing the quote or saving it to a database
+            
+           let new_bid = Bid {
+                description: create_bid.description,
+                auction: create_bid.auction,
+                owner: caller(), // Teklifin sahibi çağırıcıdır
+                currency: create_bid.currency,
+                amount: create_bid.amount,
+                is_active: create_bid.is_active,
+            };
+
+            // Add the offer to the database
+            AUCTION_MAP.with(|p| {
+                let mut auction_map = p.borrow_mut();
+                let new_bid_id = generate_unique_bid_id(); // Teklif için benzersiz bir kimlik oluşturun
+                auction_map.insert(new_bid_id, new_bid);
+            });
+
+
+            Ok(())
+        }
+        Err(_) => Err(BidError::TransferError),
+    }
+}
+
+// An example function to generate a unique quote ID
+fn generate_unique_bid_id() -> u64 {
+     // You can customize this function according to the application
+    // For example, you can generate a random ID
+   // For now we are just returning a sample value
+
+     12345
+}
+
 
